@@ -46,8 +46,8 @@ class MultiAxisDismissiblePage extends StatefulWidget {
 
   @protected
   MultiDragGestureRecognizer createRecognizer(
-    GestureMultiDragStartCallback onStart,
-  ) {
+      GestureMultiDragStartCallback onStart,
+      ) {
     return ImmediateMultiDragGestureRecognizer()..onStart = onStart;
   }
 
@@ -108,6 +108,7 @@ class _MultiAxisDismissiblePageState extends State<MultiAxisDismissiblePage>
 
   void statusListener(AnimationStatus status) {
     if (status == AnimationStatus.completed) {
+      widget.onDragEnd?.call();
       _moveController.value = 0;
     }
   }
@@ -122,6 +123,7 @@ class _MultiAxisDismissiblePageState extends State<MultiAxisDismissiblePage>
   }
 
   Drag? _startDrag(Offset position) {
+    widget.onDragStart?.call();
     if (_activeCount > 1) return null;
     _dragUnderway = true;
     final renderObject = context.findRenderObject()! as RenderBox;
